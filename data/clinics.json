@@ -12553,5 +12553,140 @@
       "youtube": "",
       "website": ""
     }
+  },
+  {
+    "id": "0d1818c2-b88e-4317-b8c6-7e3b28c596e6",
+    "slug": "ramchad",
+    "name": "ramchandar",
+    "subBrand": "Premium Dental Website",
+    "tagline": "Modern dentistry for confident smiles",
+    "heroTitle": "A premium dental experience for every patient.",
+    "heroDescription": "Add this clinic details from the admin dashboard and generate a custom public website link instantly.",
+    "address": "Clinic address here",
+    "cityLine": "City, Area",
+    "phone": "0000000000",
+    "whatsapp": "910000000000",
+    "email": "",
+    "mapUrl": "",
+    "mapEmbedUrl": "",
+    "themeKey": "lagoon",
+    "theme": {
+      "name": "Lagoon Premium",
+      "ink": "#102033",
+      "teal": "#006d77",
+      "tealDark": "#033f47",
+      "mint": "#7acda5",
+      "coral": "#ef7b45",
+      "soft": "#eef8f6"
+    },
+    "heroImage": "/assets/images/hero_premium.png",
+    "backgroundImage": "/assets/images/hero.png",
+    "clinicImage": "/assets/images/dental-consultation.png",
+    "logoText": "RC",
+    "highlights": [
+      "Modern care",
+      "Comfort visit",
+      "Digital planning"
+    ],
+    "stats": [
+      {
+        "value": "12+",
+        "label": "Years of clinical expertise"
+      },
+      {
+        "value": "2500+",
+        "label": "Advanced procedures completed"
+      },
+      {
+        "value": "1.5k+",
+        "label": "Smiles cared for"
+      },
+      {
+        "value": "24/7",
+        "label": "Emergency guidance"
+      }
+    ],
+    "services": [
+      {
+        "title": "Painless Root Canal",
+        "text": "Single-sitting and multi-visit RCT options with apex locator precision, rotary endodontics, and comfort-first anesthesia.",
+        "image": "/assets/images/Root-Canal-Treatment.webp",
+        "tags": [
+          "Microscope assisted",
+          "Tooth saving",
+          "Pain relief"
+        ]
+      },
+      {
+        "title": "Smile Designing",
+        "text": "Digital smile previews, veneers, whitening, bonding, contouring, and shade planning for a natural premium finish.",
+        "image": "/assets/images/Smile-Designing.webp",
+        "tags": [
+          "Digital preview",
+          "Veneers",
+          "Whitening"
+        ]
+      },
+      {
+        "title": "Dental Implants",
+        "text": "Implant planning for missing teeth, full-mouth rehabilitation, fixed teeth solutions, and bite restoration.",
+        "image": "/assets/images/Full-mouth-Rehabilitation-vellore.webp",
+        "tags": [
+          "Fixed teeth",
+          "3D planning",
+          "Long-term"
+        ]
+      }
+    ],
+    "doctors": [
+      {
+        "name": "Dr. Shashank Asthana",
+        "role": "Lead Dental Surgeon",
+        "image": "/assets/images/doctor.jpg",
+        "bio": "Specialist-led dentistry with a comfort-first approach and modern clinical workflow."
+      }
+    ],
+    "gallery": [
+      "/assets/images/service-1-premium.png",
+      "/assets/images/service-2-premium.png",
+      "/assets/images/service-3-premium.png",
+      "/assets/images/gallery-1.png"
+    ],
+    "hours": [
+      {
+        "day": "Monday",
+        "time": "9:00 AM - 9:00 PM"
+      },
+      {
+        "day": "Tuesday",
+        "time": "9:00 AM - 9:00 PM"
+      },
+      {
+        "day": "Wednesday",
+        "time": "9:00 AM - 9:00 PM"
+      },
+      {
+        "day": "Thursday",
+        "time": "9:00 AM - 9:00 PM"
+      },
+      {
+        "day": "Friday",
+        "time": "9:00 AM - 9:00 PM"
+      },
+      {
+        "day": "Saturday",
+        "time": "9:00 AM - 9:00 PM"
+      },
+      {
+        "day": "Sunday",
+        "time": "Closed"
+      }
+    ],
+    "social": {
+      "facebook": "",
+      "instagram": "",
+      "youtube": "",
+      "website": ""
+    }
   }
 ]

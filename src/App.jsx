@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useMemo, useState } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import {
@@ -38,6 +40,8 @@ import {
 
 const STORAGE_KEY = 'master-dental-clinics-v1';
 const CLINICS_API_PATH = '/api/clinics';
+
+const isBrowser = typeof window !== 'undefined';
 
 const navItems = [
   ['Experience', '#experience'],
@@ -497,6 +501,8 @@ const defaultClinic = normalizeClinic({
 });
 
 function loadClinics() {
+  if (!isBrowser) return seedClinics.map(normalizeClinic);
+
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) return seedClinics.map(normalizeClinic);
@@ -509,7 +515,9 @@ function loadClinics() {
 
 function saveClinics(clinics) {
   const normalized = clinics.map(normalizeClinic);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(normalized));
+  if (isBrowser) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(normalized));
+  }
   void saveClinicsToApi(normalized);
 }
 
@@ -545,20 +553,13 @@ async function saveClinicsToApi(clinics) {
 }
 
 function getPublicClinicUrl(slug) {
-  const url = new URL(window.location.href);
-  url.pathname = `/clinic/${slug}`;
-  url.search = '';
-  url.hash = '';
-  return url.toString();
+  const origin = isBrowser ? window.location.origin : '';
+  return `${origin}/clinic/${slug}`;
 }
 
 function getAdminUrl() {
-  const url = new URL(window.location.href);
-  url.pathname = '/';
-  url.search = '';
-  url.hash = '';
-  url.searchParams.set('admin', '1');
-  return url.toString();
+  const origin = isBrowser ? window.location.origin : '';
+  return `${origin}/admin`;
 }
 
 function getClinicSlugFromLocation(locationLike) {
@@ -573,7 +574,7 @@ function getClinicSlugFromLocation(locationLike) {
 function toAbsoluteAssetUrl(value) {
   if (!value) return '';
   try {
-    return new URL(value, window.location.origin).toString();
+    return new URL(value, isBrowser ? window.location.origin : 'http://localhost:3000').toString();
   } catch {
     return value;
   }
@@ -585,7 +586,7 @@ function buildClinicMeta(clinic) {
       title: defaultSiteMeta.title,
       description: defaultSiteMeta.description,
       image: toAbsoluteAssetUrl(defaultSiteMeta.image),
-      url: window.location.origin + window.location.pathname
+      url: isBrowser ? window.location.origin + window.location.pathname : '/'
     };
   }
 
@@ -599,17 +600,20 @@ function buildClinicMeta(clinic) {
     title,
     description,
     image: toAbsoluteAssetUrl(clinic.heroImage || clinic.clinicImage || defaultSiteMeta.image),
-    url: window.location.href
+    url: isBrowser ? window.location.href : `/clinic/${clinic.slug}`
   };
 }
 
 function setMetaContent(selector, content) {
+  if (typeof document === 'undefined') return;
   const element = document.querySelector(selector);
   if (!element || !content) return;
   element.setAttribute('content', content);
 }
 
 function applyClinicMeta(clinic, isAdmin) {
+  if (typeof document === 'undefined') return;
+
   if (isAdmin) {
     document.title = 'Master Dental Admin | Clinic Website Manager';
     setMetaContent('meta[name="description"]', 'Manage multiple dental clinic websites, themes, links, and CSV imports.');
@@ -2362,14 +2366,27 @@ function AdminDashboard({ clinics, setClinics }) {
   );
 }
 
-export default function App() {
-  const [clinics, setClinics] = useState(loadClinics);
-  const [routeKey, setRouteKey] = useState(`${window.location.pathname}${window.location.search}`);
+function getInitialRouteKey(routePath) {
+  if (routePath) return routePath;
+  if (!isBrowser) return '/';
+  return `${window.location.pathname}${window.location.search}`;
+}
+
+function getRouteOrigin() {
+  return isBrowser ? window.location.origin : 'http://localhost:3000';
+}
+
+export default function App({ initialClinics = null, routePath = '' }) {
+  const [clinics, setClinics] = useState(() => {
+    return initialClinics?.length ? initialClinics.map(normalizeClinic) : loadClinics();
+  });
+  const [routeKey, setRouteKey] = useState(() => getInitialRouteKey(routePath));
 
   useEffect(() => {
     function syncRoute() {
       setRouteKey(`${window.location.pathname}${window.location.search}`);
     }
+    syncRoute();
     window.addEventListener('popstate', syncRoute);
     return () => window.removeEventListener('popstate', syncRoute);
   }, []);
@@ -2398,9 +2415,9 @@ export default function App() {
     };
   }, []);
 
-  const routeUrl = useMemo(() => new URL(routeKey, window.location.origin), [routeKey]);
+  const routeUrl = useMemo(() => new URL(routeKey, getRouteOrigin()), [routeKey]);
   const params = routeUrl.searchParams;
-  const isAdmin = params.get('admin') === '1';
+  const isAdmin = routeUrl.pathname === '/admin' || params.get('admin') === '1';
   const requestedSlug = getClinicSlugFromLocation(routeUrl);
   const selectedClinic = useMemo(() => {
     if (!requestedSlug) return defaultClinic;
